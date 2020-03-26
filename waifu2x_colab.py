@@ -7,7 +7,6 @@ from google.colab import drive
 
 
 horario1 = str(datetime.now()).split()[1].split(".")[0]
-
 try:
   drive.mount('/content/drive/')
 except:
@@ -27,6 +26,8 @@ def video_upload():
           files.upload()
       except:
         print("Erro ao inciar serviço de upload!\n")
+        print("Reinicie...")
+        quit()
     else:
       pass
 
@@ -49,6 +50,7 @@ def print_dir():
     novoindice = int(input("\nSelecione o seu arquivo: ")) - 1
     scale = int(input("\nNúmero de vezes que deseja ampliar: "))
     print()
+    
 
 def get_fps():
     global fps
@@ -74,8 +76,6 @@ def upscale_frames():
     print("Realizando upscale de cada imagem...")
     %cd /content/waifu2x-chainer
     !python waifu2x.py -m noise_scale -n 2 -s {scale} -i /content/frames -a 0 -g 0  > /dev/null 2>&1
-#    !python waifu2x.py -m noise_scale -n 2 -i /content/frames -a 0 -g 0  > /dev/null 2>&1
-
 
 
 def move_upscale_frames():
@@ -115,6 +115,7 @@ def generating_video2x():
 
 
 horario2 = str(datetime.now()).split()[1].split(".")[0]
+
 
 if __name__ == "__main__":
     video_upload()
