@@ -16,7 +16,7 @@ except:
 def video_upload():
     global numero
     print()
-    numero = int(input('[1] Localfile \n[2] Google Drive \n \nSelecione um número: '))
+    numero = int(input('[1] Localfile \n[2] Google Drive => [Root /]  \n \nSelecione um número: '))
     if numero == 1:
       try:
         try:
