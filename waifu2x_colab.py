@@ -117,9 +117,6 @@ def generating_video2x():
     print()
 
 
-horario2 = str(datetime.now()).split()[1].split(".")[0]
-
-
 if __name__ == "__main__":
     video_upload()
     print_dir()
@@ -131,6 +128,5 @@ if __name__ == "__main__":
     print(horario1)
     print(str(datetime.now()).split()[1].split(".")[0])
     !rm -r /content/frames /content/upframes 
-
     #send_for_drive()
    
