@@ -56,7 +56,10 @@ def get_fps():
     global fps
 
     fps = str(os.popen(f'ffmpeg -i "{caminho}{diretorio[novoindice]}" 2> fps.txt ; egrep -i "fps" fps.txt').read())
-    fps = fps.split(",")[4].split()[0]
+    try:
+      fps = fps.split(",")[4].split()[0]
+    except:
+      fps = 23.98
     !rm "fps.txt"
 
 
