@@ -129,8 +129,8 @@ if __name__ == "__main__":
     move_upscale_frames()
     generating_video2x()
     print(horario1)
-    print(horario2)
-    !rm -r frames upframes 
+    print(str(datetime.now()).split()[1].split(".")[0])
+    !rm -r /content/frames /content/upframes 
 
     #send_for_drive()
    
