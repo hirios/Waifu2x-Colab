@@ -55,20 +55,13 @@ def print_dir():
 def get_fps():
     global fps
 
-    fps = str(os.popen(f'ffmpeg -i "{caminho}{diretorio[novoindice]}" 2> fps.txt ; egrep -i "fps" fps.txt').read())
-    try:
-      fps = fps.split(",")[4].split()[0]
-    except:
-      fps = 23.98
-    !rm "fps.txt"
+    fps = !ffmpeg -i "{caminho}{diretorio[novoindice]}" 
+    fps = int([x for x in str(fps).split(",") if "fps" in x][0].split()[0])
+    !rm "fps.txt" 2>/dev/null
 
 
 def get_frames():
-    try:
-      os.system(f"mkdir frames")
-    except:
-      pass
-
+    !mkdir frames 2>/dev/null
     print("Extraindo frames do seu vídeo...")
     os.system(f'cd frames && ffmpeg -i "{caminho}{diretorio[novoindice]}" %d.png')
 
@@ -98,16 +91,14 @@ def move_upscale_frames():
     for numero in range(0, len(file_list)):
         file_list[numero] = f"{path}/{file_list[numero]}"
 
-    try:
-        os.system("mkdir upframes")
-    except:
-        pass
+    !mkdir upframes 2>/dev/null
 
     cont = 0
     for item in file_list:
         if item != f"{path}/appendix" and item != f"{path}/images" and item != f"{path}/LICENSE" and item != f"{path}/README.md" and item != f"{path}/waifu2x.py" and item != f"{path}/lib" and item != f"{path}/models" and item != f"{path}/train.py" and item != f"{path}/.flake8" and item != f"{path}/.git" and item != f"{path}/.gitignore" and item != f"{path}/read2x.py" and item != f"{path}/upframes":
             subprocess.Popen(["mv", item, "upframes"])
             cont += 1
+
     print()
     print(cont, "itens movidos para /content/upframes")
 
@@ -118,7 +109,7 @@ def generating_video2x():
     %cd /content/upframes
     print("\nGerando novo arquivo de vídeo...")
     obra = f"{diretorio[novoindice][0:-4]}_upscale.mkv"
-    !ffmpeg -f image2 -r {fps} -i %d.png -i /content/audio.aac "/content/drive/My Drive/{diretorio[novoindice][0:-4]}_upscale.mkv"  2>/dev/null
+    !ffmpeg -f image2 -r  {fps} -i %d.png -i /content/audio.aac "/content/drive/My Drive/{diretorio[novoindice][0:-4]}_upscale.mkv"  2>/dev/null
     print('_________________Fim_________________\n')
   
 
