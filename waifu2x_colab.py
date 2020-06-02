@@ -120,7 +120,6 @@ def generating_video2x():
     obra = f"{diretorio[novoindice][0:-4]}_upscale.mkv"
     !ffmpeg -f image2 -r {fps} -i %d.png -i /content/audio.aac "/content/drive/My Drive/{diretorio[novoindice][0:-4]}_upscale.mkv"  2>/dev/null
     print('_________________Fim_________________\n')
-
   
 
 if __name__ == "__main__":
