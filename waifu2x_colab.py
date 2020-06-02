@@ -124,4 +124,4 @@ if __name__ == "__main__":
     generating_video2x()
     print(horario1)
     print(str(datetime.now()).split()[1].split(".")[0])
-    !rm -r /content/frames /content/upframes 
+    !rm -r /content/frames /content/upframes /content/audio.aac 2>/dev/null
