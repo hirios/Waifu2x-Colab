@@ -89,6 +89,7 @@ def upscale_frames():
 
 
 def move_upscale_frames():
+    print()
     %cd /content
     path = "/content/waifu2x-chainer"
     file_list = os.listdir(path)
@@ -107,7 +108,7 @@ def move_upscale_frames():
         if item != f"{path}/appendix" and item != f"{path}/images" and item != f"{path}/LICENSE" and item != f"{path}/README.md" and item != f"{path}/waifu2x.py" and item != f"{path}/lib" and item != f"{path}/models" and item != f"{path}/train.py" and item != f"{path}/.flake8" and item != f"{path}/.git" and item != f"{path}/.gitignore" and item != f"{path}/read2x.py" and item != f"{path}/upframes":
             subprocess.Popen(["mv", item, "upframes"])
             cont += 1
-
+    print()
     print(cont, "itens movidos para /content/upframes")
 
 
@@ -118,6 +119,8 @@ def generating_video2x():
     print("\nGerando novo arquivo de vídeo...")
     obra = f"{diretorio[novoindice][0:-4]}_upscale.mkv"
     !ffmpeg -f image2 -r {fps} -i %d.png -i /content/audio.aac "/content/drive/My Drive/{diretorio[novoindice][0:-4]}_upscale.mkv"  2>/dev/null
+    print('_________________Fim_________________\n')
+
   
 
 if __name__ == "__main__":
