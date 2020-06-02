@@ -69,14 +69,21 @@ def get_frames():
     except:
       pass
 
-    print("Extraindo frames e audio do seu vídeo...")
+    print("Extraindo frames do seu vídeo...")
     os.system(f'cd frames && ffmpeg -i "{caminho}{diretorio[novoindice]}" %d.png')
-    os.system(f'cd frames && ffmpeg -i "{caminho}{diretorio[novoindice]}" -vn -acodec copy /content/audio.aac')
+
+
+def get_audio():
+  print("Extraindo audio ...")
+  os.system(f"""ffmpeg -i "{caminho}{diretorio[novoindice]}" -vn -acodec copy /content/audio.aac""")
+  size = !du -sh /content/audio.aac  2>/dev/null
+  if int(size[0].split()[0]) == 0:
+    !rm /content/audio.aac
+    !ffmpeg -i  "{caminho}{diretorio[novoindice]}" -vn -ac 2 -ar 44100 -ab 320k -f mp3 /content/audio.aac  2>/dev/null
 
 
 def upscale_frames():
-    print()
-    print("Realizando upscale de cada imagem...")
+    print("\nRealizando upscale de cada imagem...")
     %cd /content/waifu2x-chainer
     !python waifu2x.py -m noise_scale -n 2 -s {scale} -i /content/frames -a 0 -g 0  > /dev/null 2>&1
 
@@ -101,7 +108,6 @@ def move_upscale_frames():
             subprocess.Popen(["mv", item, "upframes"])
             cont += 1
 
-    print()
     print(cont, "itens movidos para /content/upframes")
 
 
@@ -109,24 +115,20 @@ def generating_video2x():
     global obra
 
     %cd /content/upframes
-    print()
-    print("Gerando novo arquivo de vídeo...")
+    print("\nGerando novo arquivo de vídeo...")
     obra = f"{diretorio[novoindice][0:-4]}_upscale.mkv"
-    os.system(f"""ffmpeg -f image2 -r {fps} -i %d.png -i /content/audio.aac '/content/drive/My Drive/{diretorio[novoindice][0:-4]}_upscale.mkv' """)
-    print('\n==================== FIIIIIIIIIMMMMMMMMMMMM ====================')
-    print()
-
+    !ffmpeg -f image2 -r {fps} -i %d.png -i /content/audio.aac "/content/drive/My Drive/{diretorio[novoindice][0:-4]}_upscale.mkv"  2>/dev/null
+  
 
 if __name__ == "__main__":
     video_upload()
     print_dir()
     get_fps()
     get_frames()
+    get_audio()
     upscale_frames()
     move_upscale_frames()
     generating_video2x()
     print(horario1)
     print(str(datetime.now()).split()[1].split(".")[0])
     !rm -r /content/frames /content/upframes 
-    #send_for_drive()
-   
