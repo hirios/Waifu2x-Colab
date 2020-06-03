@@ -70,7 +70,7 @@ def get_audio():
   print("Extraindo audio ...")
   os.system(f"""ffmpeg -i "{caminho}{diretorio[novoindice]}" -vn -acodec copy /content/audio.aac""")
   size = !du -sh /content/audio.aac  2>/dev/null
-  if int(size[0].split()[0]) == 0:
+  if size[0].split()[0] != '0':
     !rm /content/audio.aac
     !ffmpeg -i  "{caminho}{diretorio[novoindice]}" -vn -ac 2 -ar 44100 -ab 320k -f mp3 /content/audio.aac  2>/dev/null
 
