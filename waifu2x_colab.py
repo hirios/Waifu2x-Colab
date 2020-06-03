@@ -56,7 +56,7 @@ def get_fps():
     global fps
 
     fps = !ffmpeg -i "{caminho}{diretorio[novoindice]}" 
-    fps = int([x for x in str(fps).split(",") if "fps" in x][0].split()[0])
+    fps = [x for x in str(fps).split(",") if "fps" in x][0].split()[0]
     !rm "fps.txt" 2>/dev/null
 
 
